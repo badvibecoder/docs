@@ -153,4 +153,25 @@ Capture one var by value and another by reference: `auto lambda = [i, &j](int k0
 
 Page 26 (Real page 56)
 
+If you are building code for compatiblity you may need to set the fsycl compiler to spir64 `icpx -fsycl -fsycl-targets=spir64` during compilation. However this is a wide generic type for compatibility you will lose a lot of platform specific performance. You will want to look into architecture specific compilation using SYCL to target performance for benchmarking.
+
+NOTE: bare `-fsycl` will package code as SPIR-V and not know how to target XMX/Xe Extensions or other special hardware. You will want to modify how the code compiles and use ahead-of-time AOT targets to force native instructions for the specialized hardware.
+
+Example:
+
+```bash
+icpx -fsycl -O3 -fp-model=fast -fsycl-targets=spir64_x86_64,spir64_gen -o intel_benchmark benchmark.cpp
+```
+
+## Concurrency vs Parallelism
+
+- concurrency: two or more threads are making some progress
+- parallelism: two or more threads are executing simultaneously
+
+# Chapter 2 Where Code Executes
+
+
+
+
+
 
