@@ -149,6 +149,8 @@ These are a concise way to write anonymous function objects (closures) directly 
 - `-> ret` Return type, if its not specified it is inferred from the return statements. The lack of a statement or return with no value implied a void return. SYCL kernels must always have a return type of void.
 - `{ body }` Actual code containing the logic
 
+Capture one var by value and another by reference: `auto lambda = [i, &j](int k0, int& l0) -> int {`
 
+Page 26 (Real page 56)
 
 
