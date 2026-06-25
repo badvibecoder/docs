@@ -66,4 +66,89 @@ int main() {
 
 page7 (actual page 37)
 
+## Queues and Actions
+
+Queues are the connection to the device, and the only way to get data into the device. Actions are things placed in the queue.
+
+- Actions
+    - Code execute
+    - Memory ops
+
+This is asynchronous, the cpu continue to run the code, the actions are punted to the accelerator/device/fpga/gpu/npu/etc...
+
+The goal is to increase throughput and reduce latency of data processing.
+
+Scaling, how much the program speeds up as the workload and spread across cores/processors increases. Does 100 jobs over 100 cores run as fast as 1 job on 1 core. This moves the bottleneck to a different location.
+
+Kernel of work are issues by the host os to the devices. 
+
+## Data-Parallel Programming
+
+Programs should be single source, you can divide a program into multiple files but SYCL is designs to run a single programs that encompasses all processing.
+
+SYCL can target many different devices and types at the same time asynchronously.
+
+## Kernel Code
+
+- Not supported
+    - dynamic polymorphism
+    - dynamic memory allocations
+    - static vars
+    - function points
+    - runtime type information
+    - exception handling
+    - virtual member functions
+    - variadic functions
+    - recusion
+
+## Kernel Vector Addition (DAXPY)
+
+Double Precision A times X plus Y
+
+SYCL is very close to native C++ because it is native C++
+
+```cpp
+// C++ loop
+for (int i=0;i<n;i++) {
+  z[i] = alpha * x[i] + y[i];
+}
+
+// SYCL kernel
+q.parallel_for(range{n},[=](id<1> i) {
+  z[i] = alpha * x[i] + y[i];
+}).wait();
+```
+
+## Race Conditions
+
+We will need to account for multiple parts of the program access the same things, using `.wait()`, event dependencies, creating ordered queues, dependence on memcpy and parallel_for. Some GPUs also cannot run parallel functions in expected ways negating the race condition. Synchronization can lead to race condition avoidance but has performance penalties.
+
+SYCL uses out of order queues by default.
+
+Its easier to debug race conditions by have all the code execute against the cpu.
+
+## Deadlock
+
+When 2 or more actions are blocked (processes, threads). Each is waiting on a resource or to complete a task.
+
+Each time we use a way, sync, or lock we are open to deadlocks.
+
+## cpp Lambda Expressions
+
+These are a concise way to write anonymous function objects (closures) directly at the location they are used.
+
+```cpp
+[ capture-list ] ( params ) -> ret { body }
+```
+
+- `[]` Capture clause/list defined which vars the enclosing scope are accessible inside the lambda
+    - `[]` empty, no vars from outer scope can be used
+    - `[=]` capture all by value, copies all references variables in the lambda, originals cannot be modified
+    - `[&]` capture all by reference, this can modify outer scope originals
+- `( params )` This is your input argument, matches standard function params and can be omitted if not needed
+- `-> ret` Return type, if its not specified it is inferred from the return statements. The lack of a statement or return with no value implied a void return. SYCL kernels must always have a return type of void.
+- `{ body }` Actual code containing the logic
+
+
+
 
