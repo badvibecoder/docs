@@ -170,8 +170,36 @@ icpx -fsycl -O3 -fp-model=fast -fsycl-targets=spir64_x86_64,spir64_gen -o intel_
 
 # Chapter 2 Where Code Executes
 
+Page 31 (Real page 61)
 
+Dont drive in the fast lane, drive in all lanes.
 
+## Single Source
 
+SYCL are single source programs. Code to the on kernels and orchestrate the execute are in the same program.
 
+Most of your code will execute on the host/cpu, only a small amount of code is actually ran on the device within the queue.
 
+- Host code = cpu
+- Device code = accelerator
+    - Executes async from the host code
+
+The host submits device code to the device and then it tracks and starts work.
+
+Certain SYCL functions are only available within device code. Things that can only run on devices will only run on devices.
+
+- Actions: work that is submitted to queues
+
+## Choosing Devices
+
+There are a number of methods to control where device code will execute
+
+- method 1 - Run device code somewhere, simple, no specifics
+- method 2 - explicity run on cpu, mostly for debug
+- method 3 - gpu or accelerator
+- method 4 - heterogeneous devices, ie cpu gpu and fpga
+- method 5 - select a specific device class like 'all fpgas'
+
+Build and debug in method 2 and only move to specific hardware when code is fully tested.
+
+Page 37 (Real page 67)
