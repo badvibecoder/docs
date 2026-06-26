@@ -203,3 +203,91 @@ There are a number of methods to control where device code will execute
 Build and debug in method 2 and only move to specific hardware when code is fully tested.
 
 Page 37 (Real page 67)
+
+## Method 1 Run on a device of any type
+
+Device select does not take into account the actual code running.
+
+The queue class constructor:
+
+```cpp
+class queue {
+ public:
+  // Create a queue associated with a default
+  // (implementation chosen) device.
+  queue(const property_list & = {});
+
+  queue(const async_handler &, const property_list & = {});
+
+  // Create a queue using a DeviceSelector.
+  // A DeviceSelector is a callable that ranks
+  // devices numerically. There are a few SYCL-defined
+  // device selectors available such as 
+  // cpu_selector_v and gpu_selector_v.
+  template <typename DeviceSelector>
+  explicit queue(const DeviceSelector &deviceSelector,
+                 const property_list &propList = {});
+
+  // Create a queue associated with an explicit device to
+  // which the program already holds a reference.
+  queue(const device &, const property_list & = {});
+
+  // Create a queue associated with a device in a specific
+  // SYCL context. A device selector may be used in place
+  // of a device.
+  queue(const context &, const device &,
+        const property_list & = {});
+};
+```
+
+A queue is bound to a single device, which is set on the construction of the queue. Work submitted to that queue can only reach the related device. Queues cannot spread work over multiple devices. 
+
+Multiple queues can be created to leverage multiple devices. Multiple queues can be creates for a single device, ie vector acceleration and tensor accelerators.
+
+When constructing a queue if the constructor does not take any args it just chooses an available device. In most cases this will be the cpu.
+
+Pull the available/select device.
+
+```cpp
+#include <iostream>
+#include <sycl/sycl.hpp>
+using namespace sycl;
+int main() {
+// Create queue on whatever default device that the
+// implementation chooses. Implicit use of
+// default_selector_v
+queue q;
+std::cout << "Selected device: "
+<< q.get_device().get_info<info::device::name>()
+<< "\n";
+return 0;
+}
+```
+
+```bash
+Selected device: Intel(R) Arc(TM) Pro B70 Graphics
+```
+
+## Method 2 Using CPU to Debug
+
+CPU Advantages
+
+Page 43 (Real page 73)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
