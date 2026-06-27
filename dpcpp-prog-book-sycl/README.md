@@ -475,7 +475,17 @@ There are also additional resolution available with custom selectors to score de
 
 Page 54 (Real Page 84)
 
+**Graphs:** These are hardware/software pipelines, static in nature, and mostly immutable. The goal of a graph is to look at your code, hardware and strip away anything not needed (ie CPU related ops) so it provided a hard blueprint of device specific hardware commands to execute.
 
+In SYCL we have Task Graphs and Command Graphs.
+
+- Task Graph (Built by runtime[the lib/engine, aka the background software layer that is managing the execution])
+  - implicit, sycl runtime engine acts as an automated traffic controller
+- Command Graph (SYCL Graph)
+  - explicit, your telling sycl to take a task graph and do something exact with it
+  - Running against AMD the SYCL Graph lowers into HIP Graphs, same for CUDA.
+
+Page 55 (Real Page 85)
 
 
 
