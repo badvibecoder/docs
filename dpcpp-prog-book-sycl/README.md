@@ -274,17 +274,206 @@ CPU Advantages
 
 Page 43 (Real page 73)
 
+- Dev on any box before you spin up on an HPC cluster
+- Debugging easily
+- Backup when no accelerators are available
 
+Passing `cpu_selector_v` to the queue constructor you can tell the code to bind the queue to the cpu.
 
+```cpp
+#include <iostream>
+#include <sycl/sycl.hpp>
+using namespace sycl;
 
+int main() {
+  // Create queue to use the CPU device explicitly
+  queue q{cpu_selector_v};
 
+  std::cout << "Selected device: "
+            << q.get_device().get_info<info::device::name>()
+            << "\n";
+  std::cout
+      << " -> Device vendor: "
+      << q.get_device().get_info<info::device::vendor>()
+      << "\n";
 
+  return 0;
+}
+```
 
+```bash
+Selected device: Intel(R) Core(TM) Ultra 7 270K Plus
+```
 
+## Method 3 GPU (or other accelerators)
 
+Page 45 (Real Page 75)
 
+These can be cpu, gpus, dsp, fpga, etc...
 
+We can use device selectors to determine which device the queue will go to. The queue class has constructors that can accept `DeviceSelector` as a const referencing a device. 
 
+4 Built in `DeviceSelector`s.
+
+- `default_selector_v`
+- `cpu_selector_v`
+- `gpu_selector_v`
+- `acelerator_selector_v`
+    - any device that identifies itself as an accelerator
+
+in `dpc++` there is an additional fpga extension which can be accessed with `fpga_selector_v`
+
+GPU selector example:
+
+```cpp
+#include <iostream>
+#include <sycl/sycl.hpp>
+using namespace sycl;
+
+int main() {
+  // Create queue bound to an available GPU device
+  queue q{gpu_selector_v};
+
+  std::cout << "Selected device: "
+            << q.get_device().get_info<info::device::name>()
+            << "\n";
+  std::cout
+      << " -> Device vendor: "
+      << q.get_device().get_info<info::device::vendor>()
+      << "\n";
+
+  return 0;
+}
+```
+
+Output:
+
+```bash
+Selected device: Intel(R) Arc(TM) Pro B70 Graphics
+```
+
+### Check what devices are available
+
+```cpp
+#include <iostream>
+#include <string>
+#include <sycl/ext/intel/fpga_extensions.hpp>  // For fpga_selector_v
+#include <sycl/sycl.hpp>
+using namespace sycl;
+
+void output_dev_info(const device& dev,
+                     const std::string& selector_name) {
+  std::cout << selector_name << ": Selected device: "
+            << dev.get_info<info::device::name>() << "\n";
+  std::cout << "                  -> Device vendor: "
+            << dev.get_info<info::device::vendor>() << "\n";
+}
+
+int main() {
+  try {
+    output_dev_info(device{default_selector_v},
+                    "default_selector_v");
+  } catch (sycl::exception& e) {
+    std::cout << "No SYCL devices found.\n";
+  }
+  try {
+    output_dev_info(device{cpu_selector_v}, "cpu_selector_v");
+  } catch (sycl::exception& e) {
+    std::cout << "No CPU devices found.\n";
+  }
+  try {
+    output_dev_info(device{gpu_selector_v}, "gpu_selector_v");
+  } catch (sycl::exception& e) {
+    std::cout << "No GPU devices found.\n";
+  }
+  try {
+    output_dev_info(device{accelerator_selector_v},
+                    "accelerator_selector_v");
+  } catch (sycl::exception& e) {
+    std::cout << "No accelerator devices found.\n";
+  }
+  try {
+    output_dev_info(device{ext::intel::fpga_selector_v},
+                    "fpga_selector_v");
+  } catch (sycl::exception& e) {
+    std::cout << "No FPGA devices found.\n";
+  }
+
+  return 0;
+}
+```
+
+I ommitted the fpga configurations from the test but here is the output:
+
+```bash
+default_selector_v: Selected device: Intel(R) Arc(TM) Pro B70 Graphics
+                  -> Device vendor: Intel(R) Corporation
+cpu_selector_v: Selected device: Intel(R) Core(TM) Ultra 7 270K Plus
+                  -> Device vendor: Intel(R) Corporation
+gpu_selector_v: Selected device: Intel(R) Arc(TM) Pro B70 Graphics
+                  -> Device vendor: Intel(R) Corporation
+```
+
+Page 49 (Real Page 79)
+
+If a device cannot be selected a `runtime_error` exception will be thrown.
+
+### Method 4 Using multiple devices
+
+We will use the cpu and gpu
+
+```cpp
+#include <iostream>
+#include <sycl/sycl.hpp>
+using namespace sycl;
+
+int main() {
+  queue my_gpu_queue(gpu_selector_v);
+  queue my_cpu_queue(cpu_selector_v);
+
+  std::cout << "Selected device 1: "
+            << my_gpu_queue.get_device()
+                   .get_info<info::device::name>()
+            << "\n";
+
+  std::cout << "Selected device 2: "
+            << my_cpu_queue.get_device()
+                   .get_info<info::device::name>()
+            << "\n";
+
+  return 0;
+}
+```
+
+We see the following output:
+
+```bash
+Selected device 1: Intel(R) Arc(TM) Pro B70 Graphics
+Selected device 2: Intel(R) Core(TM) Ultra 7 270K Plus
+```
+
+### Method 5 Custom or Very Specific Device selection
+
+Properties of devices in SYCL are `aspects`. 
+
+An aspect maybe:
+
+- gpu
+- host_debuggable
+- fp64
+- online_compiler
+
+You will need to look at the SYCL spec to get a full list: https://registry.khronos.org/SYCL/specs/sycl-2020/html/sycl-2020.html
+
+The `aspect_selector` can be used, taking comma-delimited aspects. All `aspect`s must be available on a device for the device to be chose. IE, if you want FP64 but the device can only do FP32 it will not be selected.
+
+The `aspect_selector` also has an alternate form that takes two `std::vectors`, the first has `aspect`s that must be present on the device and the second contains `aspect`s that must NOT be on the device.
+
+This would be good for select devices that DO NOT have `emulation` or `emulated` aspects, ie test devices.
+
+There are also additional resolution available with custom selectors to score devices to get a bit more granular.
+
+Page 54 (Real Page 84)
 
 
 
