@@ -489,5 +489,87 @@ In SYCL we have Task Graphs and Command Graphs.
 
 Page 55 (Real Page 85)
 
+The runtime controls resolution of dependencies and controls triggering of node executions asynchronously.
 
+### Where is the device code?
 
+Code patterns will look complex but the patterns typically remain the same across all device code. 
+
+In this code snip the device code is just:
+
+```cpp
+  q.submit([&](handler& h) {
+    accessor acc{B, h};
+
+    h.parallel_for(size,[=](auto& idx) { acc[idx] = idx; });
+  });
+```
+
+one line within the `parallel_for`:
+
+```cpp
+[=](auto& idx) { acc[idx] = idx; }
+```
+
+- `[=]`
+  - All variables used in the lambda function are captured by value
+- `auto& idx`
+  - auto&, let the kernel use the refences by index and not copy
+  - idx is the work item index
+- `acc[idx] = idx`
+  - acc is the device accessor to the buffer
+    - The accessor is read/write access to the data in the buffer
+  - acc can then access the work items in the specific element position
+
+### Actions
+
+`parallel_for` is a within a command group, which is submitted to a queue, the queue defines the device which the work is to be performanced.
+
+Within the command group there are two types of code:
+
+- Host code
+  - sets up dependencies defining a safe runtime
+- at most one call to action code
+  - queues on device or performs manual memory ops like copy
+
+Work type:
+
+- device code execution
+  - `single_task` single instance of a device function
+  - `parallel_for` multiple forms, launch device code
+- explicit memory operation
+  - `copy` copy data between locations specified by accessor, pointer, shared pointer
+  - `update_host` update host data backing of a buffer object
+  - `fill` init data in buffer to a specific value
+
+Only 1 action maybe called within a command group, it will error if there is more than 1.
+
+All of this is because the code is ran async on a non-cpu device.
+
+Three classes of code
+
+- Host code
+  - drives teh application
+- Host code within a command group
+  - runs on processor
+- An action
+  - defines async work
+
+This entire section seems to be just pointing at that there is 90% of the code that is ran host side on cpu and a tiny sliver of code that will run in the future asynchronously via the queue, that code runs on the device.
+
+### Host Tasks
+
+Within code submitted to the queue we can execute host side code via the method `host_task` for things like `std::cout` during debugging.
+
+```cpp
+  q.submit([&](handler& h) {
+    h.depends_on(eA);
+    h.host_task([=]() {
+      for (int i = 0; i < N; i++)
+        std::cout << "host_task @ " << i << " = " << A[i]
+                  << "\n";
+    });
+  });
+```
+
+`h.host_task([=]() {` allows us to run host tasks from within the queue submitted to the device. This code is still executed async from the rest of the host code.
