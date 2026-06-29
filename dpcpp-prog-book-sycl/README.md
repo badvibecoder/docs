@@ -12,6 +12,8 @@
 
 ## Websites
 
+- Primer
+  - https://www.youtube.com/watch?v=-TkoO8Z07hI
 - https://github.com/Apress/data-parallel-CPP
 - https://www.khronos.org/sycl/
 - https://sycl.tech/
@@ -486,7 +488,6 @@ In SYCL we have Task Graphs and Command Graphs.
   - Running against AMD the SYCL Graph lowers into HIP Graphs, same for CUDA.
 
 Page 55 (Real Page 85)
-
 
 
 
