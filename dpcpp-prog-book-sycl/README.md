@@ -574,11 +574,6 @@ Within code submitted to the queue we can execute host side code via the method 
 
 `h.host_task([=]() {` allows us to run host tasks from within the queue submitted to the device. This code is still executed async from the rest of the host code.
 
-# Chapter 3 Data Management
-
-Page 67 (Real Page 97)
-
-
 Pausing here, need to recap the above and step through some examples:
 
 ```cpp
@@ -699,3 +694,33 @@ main func
 
                 run device code
 ```
+
+# Chapter 3 Data Management
+
+Page 67 (Real Page 97)
+
+Feeding sycl programs data requires care and planning.
+
+Two available methods:
+
+- Unified Shared Memory (USM)
+  - Pointer based
+- Buffers
+  - High level of abstraction
+
+Device Local Memory: Memory connected to processing device.
+
+Device Remote Memory: Another devices memory you can access.
+
+Device in this context is the CPU/GPU/Accellerator/FPGA and not necessarily another host.
+
+Memory can be managed explicitly through the the program we create or implicitly by the sycl runtime.
+
+- Explicit
+  - we control the memory and how its used
+  - very tedious and error prone
+- Implicit
+  - Heavy lifting is done by sycl/runtime
+  - low effort but almost no control over memory
+
+Page 72 (Real Page 102)
