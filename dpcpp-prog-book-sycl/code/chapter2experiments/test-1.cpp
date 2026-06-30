@@ -11,10 +11,14 @@ int main() {
     // Fill the array named data with N number of elements, value of int 1
     std::vector<int> data(N, 1);
 
-    // does nothing for us, disabling
-    // sycl::queue q(sycl::gpu_selector_v);
-    // std::cout << "Running on: " 
-    //           << q.get_device().get_info<sycl::info::device::name>() << "\n";
+    sycl::queue q(sycl::gpu_selector_v);
+    // sycl::queue q()
+        // We want to setup the sycl queue, access sycl namespace and instantiate the queue with an object instance of q
+    // sycl::gpu_selector_v
+        // we are selecting the device to execute on for parallelism, which is the first available gpu
+
+    std::cout << "Running on: " 
+              << q.get_device().get_info<sycl::info::device::name>() << "\n";
 
 
     // Plain cpp scope block

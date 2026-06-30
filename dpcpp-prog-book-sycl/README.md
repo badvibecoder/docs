@@ -595,10 +595,14 @@ int main() {
     // Fill the array named data with N number of elements, value of int 1
     std::vector<int> data(N, 1);
 
-    // does nothing for us, disabling
-    // sycl::queue q(sycl::gpu_selector_v);
-    // std::cout << "Running on: " 
-    //           << q.get_device().get_info<sycl::info::device::name>() << "\n";
+    sycl::queue q(sycl::gpu_selector_v);
+    // sycl::queue q()
+        // We want to setup the sycl queue, access sycl namespace and instantiate the queue with an object instance of q
+    // sycl::gpu_selector_v
+        // we are selecting the device to execute on for parallelism, which is the first available gpu
+
+    std::cout << "Running on: " 
+              << q.get_device().get_info<sycl::info::device::name>() << "\n";
 
 
     // Plain cpp scope block
@@ -663,12 +667,35 @@ int main() {
         });
     } // on block close the buffer is destroyed
 
-
-    // std::cout << "Verification (first 5 elements should be 2):\n";
-    // for (int i = 0; i < 5; i++) {
-    //     std::cout << "data[" << i << "] = " << data[i] << "\n";
-    // }
+    std::cout << "Verification (first 5 elements should be 2):\n";
+    for (int i = 0; i < 5; i++) {
+        std::cout << "data[" << i << "] = " << data[i] << "\n";
+    }
 
     return 0;
 }
+```
+
+More human readable version:
+
+```text
+Includes
+
+main func
+
+    instantiate data
+
+    create queue and select device
+
+    within a plain scope block
+
+        instantiate the buffer, dimensionality, pass in data
+
+        send command group to the queue handler
+
+            setup the accessor to be able to use the data, handler, and read/write ops
+
+            setup device queueing actions with parallel_for
+
+                run device code
 ```
