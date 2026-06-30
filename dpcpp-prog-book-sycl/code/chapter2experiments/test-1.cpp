@@ -79,11 +79,10 @@ int main() {
         });
     } // on block close the buffer is destroyed
 
-    // does nothing for us disabling
-    // std::cout << "Verification (first 5 elements should be 2):\n";
-    // for (int i = 0; i < 5; i++) {
-    //     std::cout << "data[" << i << "] = " << data[i] << "\n";
-    // }
+    std::cout << "Verification (first 5 elements should be 2):\n";
+    for (int i = 0; i < 5; i++) {
+        std::cout << "data[" << i << "] = " << data[i] << "\n";
+    }
 
     return 0;
 }
