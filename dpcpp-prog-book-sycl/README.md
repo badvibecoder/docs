@@ -705,8 +705,17 @@ Two available methods:
 
 - Unified Shared Memory (USM)
   - Pointer based
+  - Easy integration
 - Buffers
   - High level of abstraction
+  - Represented by 1,2,3 dimensional arrays
+  - Accessed only by the accessor object
+
+Also says 'Images' are available as a method
+
+- Images
+   - Special type of buffer
+   - Provides additional functionality specific to image processing
 
 Device Local Memory: Memory connected to processing device.
 
@@ -724,3 +733,26 @@ Memory can be managed explicitly through the the program we create or implicitly
   - low effort but almost no control over memory
 
 Page 72 (Real Page 102)
+
+Rewriting code to use buffers is the trade off, its difficult.
+
+USM is pointer based and we use `mallac` to allocate data.
+
+### Accessing Memory Through Points
+
+- device
+  - Allocations of device memory
+  - Not accessible by host cpu
+  - Accessible by device
+- host
+  - Allocations of host memory
+  - Accessible by all
+  - Device accessing host data must traverse the bus to RAM
+- shared
+  - Shared memory allocations between host and device
+  - Accessible by all
+  - Can migrate between host and device
+  - Once memory is access on the host ram it can be copied to the device
+
+Page 74 (Real Page 104)
+
