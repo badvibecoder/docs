@@ -29,6 +29,14 @@ In VS Code, edit coderunner executor mapping and add:
 "odin": "cd $dir && c:\\odin\\odin.exe run ."
 ```
 
+Up above we will also want:
+
+```json
+"code-runner.fileDirectoryAsCwd": true,
+```
+
+This will force the active dir to the current odin files dir, without this you need to run the code with multiple failures before it runs in the current dir.
+
 The executable will be auto deleted after running by default.
 
 https://github.com/odin-lang/Odin/blob/master/examples/README.md
@@ -65,3 +73,46 @@ Core packages are just files, imports are just files. Core packages are stored i
 Compile a single odin file instead of all the files in the folder: `odin run hellope.odin -file`
 
 # Chapter 3 Variables and Constants
+
+Declare vars, assign vars, or declare and assign, very similar to go:
+
+```odin
+myvar: int
+myvar = 7
+```
+
+```odin
+myvar := 7
+```
+
+Odin will infer the dtype from the value.
+
+NAME->COLONDECLARATION->TYPE->ASIGNMENT->VALUE
+
+Over write vars
+
+```odin
+package variable_example
+import "core:fmt"
+main :: proc() {
+    number := 7
+    fmt.println(number)
+    number = 12
+    fmt.println(number)
+}
+```
+
+I might have missed it, but `package somename` is just the logical namespace for the compiler to reference. All code in the file belongs to that package.
+
+Comments in odin:
+
+```odin
+// some comments
+
+/*  some
+    block
+    comment */
+```
+
+
+
