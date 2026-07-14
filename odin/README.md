@@ -85,6 +85,10 @@ myvar = 7
 myvar := 7
 ```
 
+```odin
+myvar: int = 7
+```
+
 Odin will infer the dtype from the value.
 
 NAME->COLONDECLARATION->TYPE->ASIGNMENT->VALUE
@@ -114,5 +118,38 @@ Comments in odin:
     comment */
 ```
 
+Float32 or `f32`
+
+```odin
+decimal_num: f32 = 7 // I prefer this method to explicitly state and assign
+// or
+decimal_num2 := f32(7)
+```
+
+For floats if you infer with `decimal_num := 5.23` it will default to a f64.
+
+Odin is strongly typed so you cannot just reassign an int var to a float. You would want to declare that var first as a f32 then assign it a whole number.
+
+### Constants
+
+Only exist at compilation, they cannot change once the program is running.
+
+```odin
+MY_CONST :: 12
+```
+
+Use `::` instead of `:=`. This is during the creation of the const. Once created we can assign a var with the value of the const. The value of a const is copy/pasta into whatever you are using.
+
+```odin
+MY_CONST :: 12
+my_num := MY_CONST
+// same as
+my_num := 12
+```
+
+Constants have a slightly different type system than vars.
 
 
+*****
+Section 3.3 red area line "BIG_CONSTANT_NUMBER :: 100000000"
+*****
