@@ -149,7 +149,67 @@ my_num := 12
 
 Constants have a slightly different type system than vars.
 
+Untyped floats can be cast to int if the decimal is 0's.
 
-*****
-Section 3.3 red area line "BIG_CONSTANT_NUMBER :: 100000000"
-*****
+### Type Inference Defaults
+
+- untyped f64/float64
+    - `mynum := 13.34`
+- untyped int
+    - `MYCONST :: 7`
+
+### Constants of Explicit Type
+
+You can force a type on a constant by inserting the dtype between the double `::`
+
+```odin
+MYCONST: f32 : 7.42
+```
+
+No type conversion can happen with constants so you will need to cast the constant to move from an f32 to f16/64 etc...
+
+Casting
+
+```odin
+MYCONST: f32 : 7.42
+// cast
+myvar: f64 = f64(MYCONST)
+```
+
+### Basic Types Summary
+
+- Signed Integers
+    - int i8 i16 i32 i64 i128
+    - -/+ whole numbers
+    - int = i64 on a 64bit platform and i32 on 32bit
+- Unsigned Integers
+    - uint u8 u16 u32 u64 u128 uintptr
+    - Positive whole numbers including 0
+    - uint is u64 on 64bit platform and u32 on 32bit
+    - uintptr is special, refers to an unsigned int that is always of pointer size
+- Floating Point
+    - f16 f32 f64
+    - -/+ whole and decimal including 0
+    - Numbers can be infinitely large, when its too big the float will take on the value of positive or negative infinity
+- Boolean Types
+    - bool b8 b16 b32 b64
+    - `true` or `false`
+    - 0 = false
+    - bool is b8, 8 bits/1 byte
+    - b32 is mostly for interfaces with other languages
+- Strings
+    - string
+    - UTF-8
+    - "" = 0 value
+    - cstring type exists to interface with c
+    - string16 and cstring16 that use UTF-16 instead of UTF-8, used for interface with windows OS API
+- Runes
+    - rune
+    - A single UTF-8 string code point
+    - 32bit signed int internally
+
+### Untyped Types Summary
+
+
+
+
