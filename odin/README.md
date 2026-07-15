@@ -242,5 +242,13 @@ Procedures, if statements, arrays, loops.
 
 A procedure is what functions are in most other langs.
 
+```odin
+is_bigger_than :: proc(number: int, compare_to: int) -> bool {
+	return number > compare_to
+}
+```
 
+The procedure is a `::` constant procedure, which takes in 2 int args. The expected output will be a bool based on the result of comparing the args.
+
+4.1
 
