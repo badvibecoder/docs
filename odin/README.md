@@ -327,6 +327,7 @@ if some > 33 {
 } else {
     // must be something else
 }
+```
 
 If statement must have `{}`
 
