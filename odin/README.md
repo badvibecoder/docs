@@ -271,3 +271,39 @@ main :: proc() {
 You can omit a return type if there is no return. 
 
 ### If Statements (4.2)
+
+```odin
+if condition {
+    // do thing here
+}
+```
+
+The condition must be a bool:
+
+- x > 7
+- x == true
+- x != y
+
+etc...
+
+- Comparison Operators
+    - ==
+    - !=
+    - <
+    - >
+    - <=
+    - >=
+
+OR || where the left side or right side can be true.
+
+AND && where the left and right side must be true.
+
+```odin
+if var == 7 && something() {
+    // var might be 7
+    // something() may return true
+}
+```
+
+
+
