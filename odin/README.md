@@ -210,6 +210,37 @@ myvar: f64 = f64(MYCONST)
 
 ### Untyped Types Summary
 
+Used by constants since they only exist at compile time.
+
+- untyped bool
+    - true false
+    - can be cast to bool b32 b64
+    - default/inferred to b8
+- untyped int
+    - can be cast to floats
+    - 64bit systems will default to int64 etc...
+- untyped floats
+    - can be cast to any floating point type
+    - can be cast to int if all decimals are 0
+    - 64bit systems will default to f64 etc...
+- untyped strings
+    - "anything" or `things that be multiline`
+    - can be cast to string cstring string16 cstring16
+    - inferred/default is string
+- untyped runes
+    - single char constants like 'A'
+    - can be cast to rune or int that can hold the underlying numerical value of the char/rune
+    - inferred type is rune
+- untyped nil
+    - type is nil
+    - cast to anything that supports nil state, pointers enums and unions
+    - cannot be inferred
+
+# Chapter 4 Some Additional Basics
+
+Procedures, if statements, arrays, loops.
+
+A procedure is what functions are in most other langs.
 
 
 
