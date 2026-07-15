@@ -246,9 +246,28 @@ A procedure is what functions are in most other langs.
 is_bigger_than :: proc(number: int, compare_to: int) -> bool {
 	return number > compare_to
 }
+
+result := is_bigger_than(3, 2)
 ```
 
 The procedure is a `::` constant procedure, which takes in 2 int args. The expected output will be a bool based on the result of comparing the args.
 
-4.1
+```odin
+package procs
 
+import "core:fmt"
+
+print_hello :: proc() {
+    fmt.println("Hello")
+}
+
+main :: proc() {
+	
+    print_hello()
+
+}
+```
+
+You can omit a return type if there is no return. 
+
+### If Statements (4.2)
