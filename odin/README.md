@@ -305,5 +305,40 @@ if var == 7 && something() {
 }
 ```
 
+Flip bool
+
+```odin
+somevar := 10
+othervar := somevar == 7
+
+if !othervar {
+    fmt.println("othervar is not 7")
+}
+```
+
+If else
+
+```odin
+if some > 33 {
+    // do something
+} else if someother == 5 {
+    // some must be <= 33
+    // someother is 5
+} else {
+    // must be something else
+}
+
+If statement must have `{}`
+
+But you can use single line variant: `if some == 7 { dothing() }`
+
+You can also use `do` to run it inline: `if some == 7 do some_proc()`
+
+### Loops (4.3)
+
+While odin has multiple loop types they all use 1 keyword `for`
+
+
+
 
 
