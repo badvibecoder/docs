@@ -486,6 +486,67 @@ most_loved :: proc(pet: int) {
 
 # Chapter 5 Making New Types
 
+Group basic types into more complex types named structs.
 
+A struct is made of fields, each field has a type and name. 
 
+```odin
+Rectangle :: struct {
+    x: f32,
+    y: f32,
+    width: f32,
+    height: f32,
+}
+```
 
+:: really means compile-time declaration.
+
+We have defined a new type named `Rectangle` which we can initialize with `myrect: Rectangle`.
+
+We can now treat it like any other dtype on instantiation:
+
+```odin
+myrect: Rectangle = {
+    width = 20,
+    height = 10,
+}
+```
+
+or
+
+```odin
+myrect := Rectangle {
+    width = 20,
+    height = 10,
+}
+```
+
+You can reassign the struct without issue:
+
+```odin
+myrect: Rectangle = {
+    width = 20,
+    height = 10,
+}
+
+// then, since its already created just reassign
+
+myrect = {
+    x = 1,
+    y = 1,
+    width = 10,
+    height = 5,
+}
+```
+
+The positions of the values within the struct hold their positions so you can also just pass in the values:
+
+```odin
+myrect := Rectangle {
+    1,1,20,10,
+}
+```
+
+When you initialize without specifying the fields you have to enter all fields. 
+
+### Structs within structs (5.1.1)
