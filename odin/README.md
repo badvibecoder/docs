@@ -337,8 +337,154 @@ You can also use `do` to run it inline: `if some == 7 do some_proc()`
 
 ### Loops (4.3)
 
-While odin has multiple loop types they all use 1 keyword `for`
+While odin has multiple loop types they all use one keyword `for`
 
+Loop forever:
+
+```odin
+for {
+    // something
+}
+```
+
+You need to conditionally break this loop
+
+```odin
+for {
+    if condition {
+        break
+    }
+
+    // something
+}
+```
+
+You can assign a condition to the for loop, it will run until the condition is false.
+
+```odin
+for condition {
+    // something
+}
+```
+
+Typical for loop example:
+
+```odin
+for i := 0; i< 10; i += 1 {
+    // something
+}
+```
+
+You can do the same with a range
+
+```odin
+for i in -..=10 {
+    // something
+}
+```
+
+You can nest loops and label the loops with `somename: ` giving you a namespace around the loop you want to break:
+
+```odin
+outerloop: for x in 0..=20 {
+    for y in 0..=20 {
+        if x >= 5 {
+            break outerloop
+        }
+    }
+}
+```
+
+We can use `continue` to skip a specific loop:
+
+```odin
+for x in 0..=10 {
+    if x == 8 {
+        continue
+    }
+}
+```
+
+You can also use labels with `continue` just like break.
+
+### Fixed Arrays (4.4)
+
+Fixed arrays have a known, preset, length that cannot grow or shrink. 
+
+Create a fixed array with a variable, that holds 10 integers: `my_array: [10]int`
+
+If you want to assign values (default will be 0) you can assign in a block:
+
+```odin
+my_array := [10]int {
+    1,2,3,4,5,6,7,8,9,10
+}
+```
+
+Grab an item in the array:
+
+```odint
+my_item := my_array[2]
+```
+This will grab the third item, 3.
+
+You can also set individual items with brackets:
+
+```odin
+my_array[5] = 6
+```
+
+This will set the int 6 into the position 5.
+
+Loop through all elements in an array:
+
+```odin
+for n in my_array {
+    fmt.println(n)
+}
+```
+
+Go through the elements in reverse:
+
+```odin
+reverse for n in my_array {
+    fmd.println(n)
+}
+```
+
+### Test Program
+
+```odin
+package test_program
+
+import "core:fmt"
+
+main :: proc() {
+
+    treats := 5
+    fav := 3
+
+    pets := [8]int {
+        1,2,3,4,5,6,7,8
+    }
+
+    for t := 0; t <= treats; t += 1 {
+
+        for i := 0; i < 8; i += 1 {
+            fmt.printfln("Pet #%v has gotten a treat", pets[i])
+            if i == fav {
+                most_loved(i)
+            }
+        }
+    }
+
+
+most_loved :: proc(pet: int) {
+    fmt.printfln("Pet %v is the most favorite", pet)
+}
+
+}
+```
 
 
 
