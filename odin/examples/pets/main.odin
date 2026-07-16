@@ -20,10 +20,8 @@ main :: proc() {
             }
         }
     }
-
+}
 
 most_loved :: proc(pet: int) {
     fmt.printfln("Pet %v is the most favorite", pet)
-}
-
 }
