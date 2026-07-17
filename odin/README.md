@@ -550,3 +550,4 @@ myrect := Rectangle {
 When you initialize without specifying the fields you have to enter all fields. 
 
 ### Structs within structs (5.1.1)
+
