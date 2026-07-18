@@ -4,7 +4,7 @@ int main() {
 
     int num; // random number
     int guess; // user entered data
-    int tries; // tracking user attempts
+    int tries = 0; // tracking user attempts
 
     srand(time(NULL));
 
