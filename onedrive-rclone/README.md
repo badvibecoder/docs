@@ -45,7 +45,7 @@ q # to close config
 
 We could run: `rclone --vfs-cache-mode writes mount OneDrive: ~/OneDrive &` and it will work but lets make it a service so it run at login.
 
-Create a new service: `micro /etc/systemd/system/onedrive.service`
+Create a new service: `vi /etc/systemd/system/onedrive.service`
 
 Paste the following:
 
