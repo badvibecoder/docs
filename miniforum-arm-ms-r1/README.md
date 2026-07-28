@@ -277,17 +277,17 @@ Make it executable: `ld -o hello hello.o`
 Test the executable: `./hello`
 
 ```bash
-user@pf-miniarm-01:~$ mkdir asm-test
-user@pf-miniarm-01:~$ cd asm-test/
-user@pf-miniarm-01:~/asm-test$ mkdir hello-test
-user@pf-miniarm-01:~/asm-test$ cd hello-test/
-user@pf-miniarm-01:~/asm-test/hello-test$ vim hello.s
-user@pf-miniarm-01:~/asm-test/hello-test$ as -o hello.o hello.s
-user@pf-miniarm-01:~/asm-test/hello-test$ ld -o hello hello.o
-user@pf-miniarm-01:~/asm-test/hello-test$ ls
+pcarroll@pf-miniarm-01:~$ mkdir asm-test
+pcarroll@pf-miniarm-01:~$ cd asm-test/
+pcarroll@pf-miniarm-01:~/asm-test$ mkdir hello-test
+pcarroll@pf-miniarm-01:~/asm-test$ cd hello-test/
+pcarroll@pf-miniarm-01:~/asm-test/hello-test$ vim hello.s
+pcarroll@pf-miniarm-01:~/asm-test/hello-test$ as -o hello.o hello.s
+pcarroll@pf-miniarm-01:~/asm-test/hello-test$ ld -o hello hello.o
+pcarroll@pf-miniarm-01:~/asm-test/hello-test$ ls
 hello  hello.o  hello.s
-user@pf-miniarm-01:~/asm-test/hello-test$
-user@pf-miniarm-01:~/asm-test/hello-test$ ./hello
+pcarroll@pf-miniarm-01:~/asm-test/hello-test$
+pcarroll@pf-miniarm-01:~/asm-test/hello-test$ ./hello
 Hello, World
 ```
 

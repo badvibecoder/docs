@@ -1,0 +1,2 @@
+//"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+"cpp": "cd $dir && icpx -fsycl $fileName -o $fileNameWithoutExt.exe && .\\$fileNameWithoutExt.exe",
