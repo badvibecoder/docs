@@ -5,7 +5,7 @@
 ```bash
 sudo pacman -Syu git openssh lact yay rclone vim curl wget steam obs-studio luanti
 
-yay -S google-chrome visual-studio-code-bin
+yay -S google-chrome visual-studio-code-bin balena-etcher
 
 # Install uv, ollama
 curl -LsSf https://astral.sh/uv/install.sh | sh
