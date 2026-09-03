@@ -10,6 +10,13 @@ yay -S google-chrome visual-studio-code-bin balena-etcher
 # Install uv, ollama
 curl -LsSf https://astral.sh/uv/install.sh | sh
 curl -fsSL https://ollama.com/install.sh | sh
+
+# Add option that will unlock RDNA2 (6950 XT) memory controller, otherwise it may fallback to 97mhz
+sudo vim /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT="... amdgpu.dcdebugmask=0x10"
+sudo update-grub
+sudo reboot
+
 ```
 
 ### Update Grub for LACT
