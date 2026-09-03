@@ -13,9 +13,16 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 # Add option that will unlock RDNA2 (6950 XT) memory controller, otherwise it may fallback to 97mhz
 sudo vim /etc/default/grub
+# Add this
 GRUB_CMDLINE_LINUX_DEFAULT="... amdgpu.dcdebugmask=0x10"
+# Update grab
 sudo update-grub
 sudo reboot
+
+# Validate mem clocks in game with this
+cat /sys/class/drm/card*/device/pp_dpm_mclk
+# Validate rebar/sam with this
+cat /sys/class/drm/card*/device/mem_info_vis_vram_total
 
 ```
 
