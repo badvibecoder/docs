@@ -3,7 +3,7 @@
 ### Install Basic Setup
 
 ```bash
-sudo pacman -Syu git openssh lact yay rclone vim curl wget steam obs-studio luanti
+sudo pacman -Syu git openssh lact yay rclone vim curl wget steam obs-studio luanti s-tui
 
 yay -S google-chrome visual-studio-code-bin balena-etcher
 
